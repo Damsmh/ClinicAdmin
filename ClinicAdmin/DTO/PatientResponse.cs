@@ -1,12 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using ClinicAdmin.Entities;
 
-namespace ClinicAdmin.Entities
+namespace ClinicAdmin.DTO
 {
-    public class Patient
+    public class PatientResponse
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PatientId { get; set; }
         public string FullName { get; set; }
         public DateTime BirthDate { get; set; }
@@ -15,7 +12,5 @@ namespace ClinicAdmin.Entities
         public string Phone { get; set; }
         public string? Email { get; set; } // Опционально
         public string Address { get; set; }
-
-        public ICollection<Appointment>? Appointments { get; set; }
     }
 }

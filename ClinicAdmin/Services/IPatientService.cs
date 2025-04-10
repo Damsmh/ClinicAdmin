@@ -1,4 +1,4 @@
-﻿using ClinicAdmin.DTO.Patient;
+﻿using ClinicAdmin.DTO;
 using ClinicAdmin.Repositories;
 
 namespace ClinicAdmin.Services
@@ -6,9 +6,9 @@ namespace ClinicAdmin.Services
     public interface IPatientService
     {
         Task<IEnumerable<PatientResponse>> GetAllPatientsAsync();
-        Task<PatientResponse> GetPatientByIdAsync(Guid id);
+        Task<PatientResponse> GetPatientByIdAsync(int id);
         Task AddPatientAsync(PatientRequest patientRequest);
-        Task UpdatePatientAsync(Guid id, PatientRequest patientRequest);
-        Task DeletePatientAsync(Guid id);
+        Task UpdatePatientAsync(int id, PatientRequest patientRequest);
+        Task DeletePatientAsync(int id);
     }
 }

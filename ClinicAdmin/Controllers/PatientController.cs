@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ClinicAdmin.Services;
-using ClinicAdmin.DTO.Patient;
+using ClinicAdmin.DTO;
 
 namespace ClinicAdmin.Controllers
 {
@@ -24,7 +24,7 @@ namespace ClinicAdmin.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> Get(int id)
         {
             var patient = await _patientService.GetPatientByIdAsync(id);
             return Ok(patient);
@@ -38,14 +38,14 @@ namespace ClinicAdmin.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody]PatientRequest patientRequest)
+        public async Task<IActionResult> Put(int id, [FromBody]PatientRequest patientRequest)
         {
             await _patientService.UpdatePatientAsync(id, patientRequest);
             return Accepted();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(int id)
         {
             await _patientService.DeletePatientAsync(id);
             return NoContent();

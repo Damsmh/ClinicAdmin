@@ -3,6 +3,7 @@ using ClinicAdmin.Data;
 using ClinicAdmin.Repositories;
 using ClinicAdmin.Services;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ClinicAdmin
 {
@@ -26,9 +27,19 @@ namespace ClinicAdmin
 
             var app = builder.Build();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                db.Database.Migrate();
+            }
+
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
+                app.UseSwagger(options =>
+                {
+                    options.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0;
+                    
+                });
                 app.UseSwaggerUI();
             }
 

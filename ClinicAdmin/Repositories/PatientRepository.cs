@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ClinicAdmin.Data;
 using ClinicAdmin.Entities;
-using Microsoft.Data.SqlClient;
 using Npgsql;
-using Microsoft.AspNetCore.Components;
 
 namespace ClinicAdmin.Repositories
 {
@@ -35,16 +33,16 @@ namespace ClinicAdmin.Repositories
 
         public async Task<IEnumerable<Patient>> GetAllAsync()
         {
-            return await _context.patients
-                .FromSqlRaw($"SELECT * FROM patients")
+            return await _context.Patients
+                .FromSqlRaw($"""SELECT * FROM "Patients" """)
                 .ToListAsync();
         }
 
-        public async Task<Patient> GetByIdAsync(Guid id)
+        public async Task<Patient> GetByIdAsync(int id)
         {
             var PatientId = new NpgsqlParameter("PatientId", id);
-            return await _context.patients
-                .FromSqlRaw($"SELECT * FROM patients WHERE id = @PatientId", PatientId)
+            return await _context.Patients
+                .FromSqlRaw($"""SELECT * FROM "Patients" WHERE "PatientId" = @PatientId""", PatientId)
                 .FirstOrDefaultAsync();
         }
 
@@ -57,23 +55,22 @@ namespace ClinicAdmin.Repositories
             {
                 parameters.Add(new NpgsqlParameter($"{Prop.Name}", Prop.GetValue(patient)));
             }
+            parameters.RemoveAt(parameters.Count - 1);
 
             await _context.Database.ExecuteSqlRawAsync($"""
-                INSERT INTO patients (id, birthday, name, "passportNumber", "contractDateTime", "contractNumber", adress, "phoneNumber")
-                VALUES (@id, @birthday, @name, @passportNumber, @contractDateTime, @contractNumber, @adress, @phoneNumber)
+                INSERT INTO "Patients" ("BirthDate", "FullName", "PassportNumber", "Address", "Phone", "Email", "Gender")
+                VALUES (@BirthDate, @FullName, @PassportNumber, @Address, @Phone, @Email, @Gender)
                 """, parameters);
         }
 
         public async Task UpdateAsync(Patient patient)
         {
-            var PatientId = new NpgsqlParameter("PatientId", patient.id);
-            var _patient = await _context.patients.FromSqlRaw($"""SELECT * FROM patients WHERE id = @PatientId""", PatientId).FirstOrDefaultAsync();
+            var PatientId = new NpgsqlParameter("PatientId", patient.PatientId);
+            var _patient = await _context.Patients.FromSqlRaw($"""SELECT * FROM "Patients" WHERE "PatientId" = @PatientId""", PatientId).FirstOrDefaultAsync();
             
             if (_patient != null)
             {
-                var contractDate = _patient.contractDateTime;
                 CopyAll(patient, _patient);
-                _patient.contractDateTime = contractDate;
                 var type = typeof(Patient);
                 List<NpgsqlParameter> parameters = [];
                 foreach (var Prop in type.GetProperties())
@@ -81,21 +78,21 @@ namespace ClinicAdmin.Repositories
                     parameters.Add(new NpgsqlParameter($"{Prop.Name}", Prop.GetValue(_patient)));
                 }
                 await _context.Database.ExecuteSqlRawAsync($"""
-                    UPDATE patients
-                    SET "birthday" = @birthday, "name" = @name, "passportNumber" = @passportNumber, "contractDateTime" = @contractDateTime, "contractNumber" = @contractNumber, "adress" = @adress, "phoneNumber" = @phoneNumber
-                    WHERE id = @id
+                    UPDATE "Patients"
+                    SET "BirthDate" = @BirthDate, "FullName" = @FullName, "PassportNumber" = @PassportNumber, "Address" = @Address, "Phone" = @Phone, "Email" = @Email, "Gender" = @Gender
+                    WHERE "PatientId" = @PatientId
                     """, parameters);
             }
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(int id)
         {
-            var PatientId = new NpgsqlParameter("id", id);
-            var patient = await _context.patients.FromSqlRaw($"""SELECT * FROM patients WHERE id = @id""", PatientId).FirstOrDefaultAsync();
+            var PatientId = new NpgsqlParameter("PatientId", id);
+            var patient = await _context.Patients.FromSqlRaw($"""SELECT * FROM "Patients" WHERE "PatientId" = @PatientId""", PatientId).FirstOrDefaultAsync();
 
             if (patient != null)
             {
-                await _context.Database.ExecuteSqlRawAsync($"DELETE FROM patients WHERE id = @id", PatientId);
+                await _context.Database.ExecuteSqlRawAsync($"""DELETE FROM "Patients" WHERE "PatientId" = @PatientId""", PatientId);
             }
         }
     }

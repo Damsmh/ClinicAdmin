@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ClinicAdmin.DTO.Patient;
+using ClinicAdmin.DTO;
 using ClinicAdmin.Entities;
 using Microsoft.Extensions.Hosting;
 

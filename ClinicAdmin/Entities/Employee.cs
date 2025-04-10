@@ -1,11 +1,18 @@
-﻿namespace ClinicAdmin.Entities
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ClinicAdmin.Entities
 {
     public class Employee
     {
-        public Guid employeeId { get; set; }
-        public DateOnly birthday { get; set; }
-        public string? name { get; set; }
-        public string? post { get; set; }
-        public string? passportSN { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int EmployeeId { get; set; }
+        public string FullName { get; set; }
+        public string Specialization { get; set; }
+        public string LicenseNumber { get; set; }
+        public string Phone { get; set; }
+
+        public ICollection<Appointment> Appointments { get; set; }
     }
 }
