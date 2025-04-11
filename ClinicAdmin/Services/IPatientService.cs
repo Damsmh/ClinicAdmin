@@ -1,5 +1,4 @@
 ﻿using ClinicAdmin.DTO;
-using ClinicAdmin.Repositories;
 
 namespace ClinicAdmin.Services
 {

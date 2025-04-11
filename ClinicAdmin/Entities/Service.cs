@@ -12,7 +12,6 @@ namespace ClinicAdmin.Entities
         public decimal Price { get; set; }
         public int DurationMinutes { get; set; }
 
-        // Навигационные свойства
         public ICollection<AppointmentService> AppointmentServices { get; set; }
     }
 }

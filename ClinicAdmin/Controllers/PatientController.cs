@@ -10,9 +10,9 @@ namespace ClinicAdmin.Controllers
     {
         private readonly IPatientService _patientService;
 
-        public PatientController(IPatientService patienttService)
+        public PatientController(IPatientService patientService)
         {
-            _patientService = patienttService;
+            _patientService = patientService;
         }
 
         [HttpGet]

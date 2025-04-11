@@ -16,6 +16,6 @@ namespace ClinicAdmin.Entities
         public string? Email { get; set; } // Опционально
         public string Address { get; set; }
 
-        public ICollection<Appointment>? Appointments { get; set; }
+        public ICollection<Appointment> Appointments { get; set; }
     }
 }

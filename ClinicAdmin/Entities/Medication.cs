@@ -11,7 +11,6 @@ namespace ClinicAdmin.Entities
         public string Name { get; set; }
         public string Manufacturer { get; set; }
         public decimal Price { get; set; }
-
         public ICollection<Prescription> Prescriptions { get; set; }
     }
 }

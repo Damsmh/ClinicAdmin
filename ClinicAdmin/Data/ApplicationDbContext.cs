@@ -9,7 +9,6 @@ namespace ClinicAdmin.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
-
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
@@ -18,7 +17,6 @@ namespace ClinicAdmin.Data
         public DbSet<AppointmentService> AppointmentServices { get; set; }
         public DbSet<Medication> Medications { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AppointmentService>()

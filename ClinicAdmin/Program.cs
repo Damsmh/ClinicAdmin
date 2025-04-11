@@ -3,7 +3,6 @@ using ClinicAdmin.Data;
 using ClinicAdmin.Repositories;
 using ClinicAdmin.Services;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace ClinicAdmin
 {
@@ -24,6 +23,12 @@ namespace ClinicAdmin
             builder.Services.AddAutoMapper(typeof(Program).Assembly);
             builder.Services.AddScoped<IPatientRepository, PatientRepository>();
             builder.Services.AddScoped<IPatientService, PatientService>();
+            builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+            builder.Services.AddScoped<IServiceService, ServiceService>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<IMedicationRepository, MedicationRepository>();
+            builder.Services.AddScoped<IMedicationService, MedicationService>();
 
             var app = builder.Build();
 

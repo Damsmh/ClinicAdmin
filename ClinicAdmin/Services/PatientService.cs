@@ -6,64 +6,50 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicAdmin.Services
 {
-    public class PatientService : IPatientService
+    public class PatientService(IPatientRepository repository, IMapper mapper) : IPatientService
     {
-        private readonly IPatientRepository _PatientRepository;
-        private readonly IMapper mapper;
-
-        public PatientService(IPatientRepository repository, IMapper mapper)
-        {
-            this.mapper = mapper;
-            _PatientRepository = repository;
-        }
-
         public async Task<IEnumerable<PatientResponse>> GetAllPatientsAsync()
         {
-            var patients = await _PatientRepository.GetAllAsync();
+            var patients = await repository.GetAllAsync();
             var PatientResponse = mapper.Map<IEnumerable<PatientResponse>>(patients);
             return PatientResponse;
         }
 
-        public async Task<PatientResponse> GetPatientByIdAsync(int id)
+        public async Task<PatientResponse> GetPatientByIdAsync([FromQuery] int id)
         {
-            var patient = await _PatientRepository.GetByIdAsync(id);
+            var patient = await repository.GetByIdAsync(id);
             if (patient == null)
                 throw new KeyNotFoundException("Patient not found");
             var PatientResponse = mapper.Map<PatientResponse>(patient);
 
             return PatientResponse;
         }
-        public async Task AddPatientAsync(PatientRequest patientRequest)
+        public async Task AddPatientAsync([FromBody] PatientRequest patientRequest)
         {
 
             var patient = mapper.Map<Patient>(patientRequest);
 
-            await _PatientRepository.AddAsync(patient);
+            await repository.AddAsync(patient);
         }
 
 
-        public async Task UpdatePatientAsync(int id, [FromBody]PatientRequest patientRequest)
+        public async Task UpdatePatientAsync([FromQuery] int id, [FromBody] PatientRequest patientRequest)
         {
-            var Patient = await _PatientRepository.GetByIdAsync(id);
+            var Patient = await repository.GetByIdAsync(id);
             if (Patient == null)
                 throw new KeyNotFoundException("Patient not found");
-
             Patient = mapper.Map<Patient>(patientRequest);
             Patient.PatientId = id;
-            await _PatientRepository.UpdateAsync(Patient);
+            await repository.UpdateAsync(Patient);
         }
 
 
-        public async Task DeletePatientAsync(int id)
+        public async Task DeletePatientAsync([FromQuery] int id)
         {
-            var Patient = await _PatientRepository.GetByIdAsync(id);
-
- 
+            var Patient = await repository.GetByIdAsync(id);
             if (Patient == null)
                 throw new KeyNotFoundException("Patient not found");
-
-
-            await _PatientRepository.DeleteAsync(id);
+            await repository.DeleteAsync(id);
         }
     }
 }
