@@ -9,6 +9,5 @@ namespace ClinicAdmin.Repositories
         Task AddAsync(Employee employee);
         Task UpdateAsync(Employee employee);
         Task DeleteAsync(int id);
-
     }
 }

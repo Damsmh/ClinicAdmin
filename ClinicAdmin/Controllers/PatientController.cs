@@ -6,7 +6,7 @@ namespace ClinicAdmin.Controllers
 {
     [Route("api/patients")]
     [ApiController]
-    public class PatientController : ControllerBase
+    public class PatientController : Controller
     {
         private readonly IPatientService _patientService;
 

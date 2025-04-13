@@ -6,7 +6,7 @@ namespace ClinicAdmin.Controllers
 {
     [Route("api/medications")]
     [ApiController]
-    public class MedicationController(IMedicationService MedicationService) : ControllerBase
+    public class MedicationController(IMedicationService MedicationService) : Controller
     {
         [HttpGet]
         public async Task<IActionResult> Get()

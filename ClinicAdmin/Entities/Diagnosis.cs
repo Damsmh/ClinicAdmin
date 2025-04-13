@@ -8,10 +8,10 @@ namespace ClinicAdmin.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DiagnosisId { get; set; }
-        public string DiagnosisCode { get; set; }
-        public string Description { get; set; }
-        public string Recommendations { get; set; }
-        public int AppointmentId { get; set; }
+        [Required] public string DiagnosisCode { get; set; }
+        [Required] public string Description { get; set; }
+        [Required] public string Recommendations { get; set; }
+        [Required] public int AppointmentId { get; set; }
 
         public Appointment Appointment { get; set; }
         public ICollection<Prescription> Prescriptions { get; set; }

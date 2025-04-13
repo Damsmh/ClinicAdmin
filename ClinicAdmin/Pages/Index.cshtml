@@ -1,0 +1,18 @@
+﻿@page
+@model ClinicAdmin.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+<h1>Мое приложение</h1>
+
+<table class="table">
+    @foreach (var item in Model.Patients)
+    {
+        <tr>
+            <td>@item.FullName</td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.PatientId">Edit</a>
+            </td>
+        </tr>
+    }
+</table>

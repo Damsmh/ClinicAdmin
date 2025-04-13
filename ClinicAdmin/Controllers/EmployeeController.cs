@@ -6,7 +6,7 @@ namespace ClinicAdmin.Controllers
 {
     [Route("api/employees")]
     [ApiController]
-    public class EmployeeController(IEmployeeService EmployeeService) : ControllerBase
+    public class EmployeeController(IEmployeeService EmployeeService) : Controller
     {
         [HttpGet]
         public async Task<IActionResult> Get()
