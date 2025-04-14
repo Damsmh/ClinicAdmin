@@ -15,7 +15,6 @@ namespace ClinicAdmin
             AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
 
             builder.Services.AddControllers();
-            builder.Services.AddRazorPages();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -37,8 +36,17 @@ namespace ClinicAdmin
             builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
             builder.Services.AddScoped<IDiagnosisRepository, DiagnosisRepository>();
             builder.Services.AddScoped<IDiagnosisService, DiagnosisService>();
+            builder.Services.AddCors(options => {
+                options.AddPolicy("ReactPolicy", builder => {
+                    builder.WithOrigins("http://localhost:3000")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
 
             var app = builder.Build();
+
+            app.UseCors("ReactPolicy");
 
             using (var scope = app.Services.CreateScope())
             {
@@ -58,10 +66,12 @@ namespace ClinicAdmin
 
             app.UseHttpsRedirection();
 
+            
             app.UseAuthorization();
+            
 
 
-            app.MapRazorPages();
+            app.MapControllers();
 
             app.Run();
         }

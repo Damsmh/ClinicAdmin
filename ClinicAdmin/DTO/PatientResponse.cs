@@ -6,7 +6,7 @@ namespace ClinicAdmin.DTO
     {
         public int PatientId { get; set; }
         public string FullName { get; set; }
-        public DateTime BirthDate { get; set; }
+        public DateOnly BirthDate { get; set; }
         public char Gender { get; set; } // 'M', 'F', 'O'
         public string PassportNumber { get; set; }
         public string Phone { get; set; }

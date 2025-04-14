@@ -47,6 +47,7 @@ namespace ClinicAdmin.Services
         public async Task AddAppointmentAsync([FromBody] AppointmentRequest appointmentRequest)
         {
             var appointment = mapper.Map<Appointment>(appointmentRequest);
+            appointment.AppointmentDate = DateTime.Now;
             await repository.AddAsync(appointment);
         }
 
